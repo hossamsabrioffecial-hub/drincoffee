@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { OrdersDB } from "@/lib/local-db";
 import { Order, PaymentProvider } from "@/lib/types";
@@ -15,7 +15,7 @@ const providers: { id: PaymentProvider; label: string }[] = [
   { id: "paytabs", label: "PayTabs" },
 ];
 
-export default function PayPage() {
+function PayContent() {
   const params = useParams<{ orderId: string }>();
   const search = useSearchParams();
   const router = useRouter();
@@ -121,5 +121,13 @@ export default function PayPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function PayPage() {
+  return (
+    <Suspense fallback={null}>
+      <PayContent />
+    </Suspense>
   );
 }

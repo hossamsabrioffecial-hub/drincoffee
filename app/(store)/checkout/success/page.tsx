@@ -1,10 +1,11 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useT } from "@/lib/i18n";
 
-export default function CheckoutSuccessPage() {
+function SuccessContent() {
   const params = useSearchParams();
   const orderId = params.get("order");
   const t = useT();
@@ -23,5 +24,13 @@ export default function CheckoutSuccessPage() {
         {t("back_home")}
       </Link>
     </div>
+  );
+}
+
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense fallback={null}>
+      <SuccessContent />
+    </Suspense>
   );
 }
