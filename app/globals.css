@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a09;
+  color: #f2ede0;
+}
+
+/* Swap body copy to an Arabic-native sans face when the page is in Arabic.
+   The brand wordmark itself (Logo.tsx) stays English-only at all times. */
+html[lang="ar"] body {
+  font-family: var(--font-arabic-sans), sans-serif;
+}
+
+::selection {
+  background: #c9a227;
+  color: #0a0a09;
+}
+
+/* Thin gold scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a09;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a331d;
+  border-radius: 4px;
+}
+
+.container-x {
+  @apply mx-auto w-full max-w-[1200px] px-6 md:px-10;
+}
+
+/* Fine film-grain texture for a premium, printed feel. Applied as an
+   overlay layer, not a background replacement, so it sits on top of
+   whatever color/gradient is underneath. */
+.grain-overlay {
+  position: relative;
+}
+.grain-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.gold-glow {
+  box-shadow: 0 0 60px -10px rgba(201, 162, 39, 0.25);
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-18px) translateX(10px); }
+}
+.animate-float-slow {
+  animation: float-slow 9s ease-in-out infinite;
+}
+@keyframes float-slower {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(16px) translateX(-14px); }
+}
+.animate-float-slower {
+  animation: float-slower 12s ease-in-out infinite;
+}
+
+.gold-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c9a227, transparent);
+}
+
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid #c9a227;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
