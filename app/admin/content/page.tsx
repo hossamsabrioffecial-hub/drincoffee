@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ContentDB } from "@/lib/local-db";
 import { SiteContent } from "@/lib/types";
 import { defaultContent } from "@/lib/data/content";
+import Logo from "@/components/Logo";
 
 function Field({
   label,
@@ -60,11 +61,53 @@ export default function AdminContentPage() {
     setTimeout(() => setSaved(false), 2000);
   }
 
+  function handleLogoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => set("logo_url", reader.result as string);
+    reader.readAsDataURL(file);
+  }
+
   return (
     <div>
       <h1 className="font-display text-3xl text-bone">Content</h1>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
+        <section className="rounded-sm border border-goldline/60 bg-char p-6 lg:col-span-2">
+          <h2 className="font-display text-xl text-bone">Identity</h2>
+          <p className="mt-1 text-xs text-stone">
+            Upload your logo to replace the built-in text wordmark everywhere it appears
+            (header, footer, admin sidebar, checkout, payment page).
+          </p>
+
+          <div className="mt-5 flex flex-col items-start gap-6 sm:flex-row sm:items-center">
+            <div className="flex h-28 w-56 items-center justify-center rounded border border-goldline/60 bg-char2 px-4">
+              <Logo size="md" tagline={!content.logo_url} overrideSrc={content.logo_url} />
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <label className="focus-ring inline-flex w-fit cursor-pointer items-center gap-2 rounded-full border border-goldline bg-char2 px-4 py-2 text-xs text-bone hover:border-gold hover:text-gold">
+                Upload logo image
+                <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
+              </label>
+
+              {content.logo_url && (
+                <button
+                  onClick={() => set("logo_url", "")}
+                  className="w-fit text-xs text-stone underline-offset-2 hover:text-red-400 hover:underline"
+                >
+                  Remove logo — use text wordmark instead
+                </button>
+              )}
+
+              <p className="max-w-sm text-[11px] text-stone">
+                Best results: a transparent PNG or SVG, roughly 400×120px (wide, not square).
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section className="rounded-sm border border-goldline/60 bg-char p-6">
           <h2 className="font-display text-xl text-bone">Hero</h2>
           <div className="mt-4 space-y-4">

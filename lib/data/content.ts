@@ -1,6 +1,7 @@
 import { SiteContent } from "../types";
 
 export const defaultContent: SiteContent = {
+  logo_url: "",
   hero_title_en: "Coffee, Kept Rare",
   hero_title_ar: "قهوة نادرة بامتياز",
   hero_subtitle_en:

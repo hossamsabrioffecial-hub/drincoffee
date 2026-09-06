@@ -1,11 +1,18 @@
-// Brand wordmark: "DRINCOFFEE" with a coffee-bean icon standing in for the
-// "O" in COFFEE, plus an optional "PREMIUM COFFEE" tagline underneath.
+"use client";
+
+// Brand mark. If the admin has uploaded a logo image (Content Manager →
+// Identity), that image is rendered. Otherwise this falls back to the
+// built-in text wordmark: "DRINCOFFEE" with a coffee-bean icon standing in
+// for the "O" in COFFEE, plus an optional "PREMIUM COFFEE" tagline.
 // English-only brand name — no Arabic wordmark, per brand direction.
 
+import { useEffect, useState } from "react";
+import { ContentDB } from "@/lib/local-db";
+
 const sizes = {
-  sm: { text: "text-lg", bean: 15, tagline: "text-[7px] mt-1 tracking-[0.35em]" },
-  md: { text: "text-2xl", bean: 20, tagline: "text-[9px] mt-1.5 tracking-[0.4em]" },
-  lg: { text: "text-4xl md:text-6xl", bean: 40, tagline: "text-xs md:text-sm mt-4 tracking-[0.5em]" },
+  sm: { text: "text-lg", bean: 15, img: "h-8", tagline: "text-[7px] mt-1 tracking-[0.35em]" },
+  md: { text: "text-2xl", bean: 20, img: "h-12", tagline: "text-[9px] mt-1.5 tracking-[0.4em]" },
+  lg: { text: "text-4xl md:text-6xl", bean: 40, img: "h-20 md:h-28", tagline: "text-xs md:text-sm mt-4 tracking-[0.5em]" },
 } as const;
 
 export default function Logo({
@@ -13,13 +20,36 @@ export default function Logo({
   tagline = false,
   beanColor = "#c9a227",
   className = "",
+  overrideSrc,
 }: {
   size?: keyof typeof sizes;
   tagline?: boolean;
   beanColor?: string;
   className?: string;
+  /** Skip reading from storage and use this src directly (or "" to force
+   * the text wordmark). Used for live previews, e.g. in the admin
+   * Content Manager, where the image hasn't been saved yet. */
+  overrideSrc?: string;
 }) {
   const s = sizes[size];
+  const [storedUrl, setStoredUrl] = useState<string>("");
+
+  useEffect(() => {
+    if (overrideSrc === undefined) {
+      setStoredUrl(ContentDB.get().logo_url || "");
+    }
+  }, [overrideSrc]);
+
+  const logoUrl = overrideSrc !== undefined ? overrideSrc : storedUrl;
+
+  if (logoUrl) {
+    return (
+      <div dir="ltr" className={`flex flex-col ${className}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={logoUrl} alt="DRINCOFFEE" className={`${s.img} w-auto object-contain`} />
+      </div>
+    );
+  }
 
   return (
     <div dir="ltr" className={`flex flex-col ${className}`}>
