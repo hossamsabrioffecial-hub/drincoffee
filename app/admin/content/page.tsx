@@ -75,7 +75,7 @@ export default function AdminContentPage() {
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <section className="rounded-sm border border-goldline/60 bg-char p-6 lg:col-span-2">
-          <h2 className="font-display text-xl text-bone">Identity</h2>
+          <h2 className="font-display text-xl text-bone">Identity &amp; Media</h2>
           <p className="mt-1 text-xs text-stone">
             Upload your logo to replace the built-in text wordmark everywhere it appears
             (header, footer, admin sidebar, checkout, payment page).
@@ -105,6 +105,20 @@ export default function AdminContentPage() {
                 Best results: a transparent PNG or SVG, roughly 400×120px (wide, not square).
               </p>
             </div>
+          </div>
+
+          <div className="mt-6 border-t border-goldline/40 pt-6">
+            <Field
+              label="Promo video URL (YouTube link, or a direct .mp4 file link)"
+              value={content.hero_video_url || ""}
+              onChange={(v) => set("hero_video_url", v)}
+            />
+            <p className="mt-2 text-[11px] text-stone">
+              Shows below the logo on the home page, landscape (16:9). Paste a YouTube link
+              (Unlisted is fine) or a direct video file URL. Leave empty to hide it. Uploading a
+              video file directly isn't supported here — video files are too large for this
+              demo&apos;s storage.
+            </p>
           </div>
         </section>
 

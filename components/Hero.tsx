@@ -8,6 +8,7 @@ import { ContentDB } from "@/lib/local-db";
 import { SiteContent } from "@/lib/types";
 import { defaultContent } from "@/lib/data/content";
 import { useT } from "@/lib/i18n";
+import { parseVideoUrl } from "@/lib/video";
 import Logo from "./Logo";
 
 export default function Hero() {
@@ -18,6 +19,8 @@ export default function Hero() {
   useEffect(() => {
     setContent(ContentDB.get());
   }, []);
+
+  const video = parseVideoUrl(content.hero_video_url || "");
 
   return (
     <section className="grain-overlay relative overflow-hidden border-b border-goldline/60 bg-ink">
@@ -44,6 +47,36 @@ export default function Hero() {
         >
           <Logo size="lg" tagline className="items-center gold-glow" />
         </motion.div>
+
+        {video && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="gold-glow mt-8 w-full max-w-2xl overflow-hidden rounded-sm ring-1 ring-goldline/60"
+          >
+            <div className="aspect-video w-full bg-black">
+              {video.kind === "file" ? (
+                <video
+                  src={video.url}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <iframe
+                  src={video.embedUrl}
+                  className="h-full w-full"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                  title="DRINCOFFEE promo video"
+                />
+              )}
+            </div>
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}

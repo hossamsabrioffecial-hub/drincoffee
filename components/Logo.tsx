@@ -10,9 +10,9 @@ import { useEffect, useState } from "react";
 import { ContentDB } from "@/lib/local-db";
 
 const sizes = {
-  sm: { text: "text-lg", bean: 15, img: "h-8", tagline: "text-[7px] mt-1 tracking-[0.35em]" },
-  md: { text: "text-2xl", bean: 20, img: "h-12", tagline: "text-[9px] mt-1.5 tracking-[0.4em]" },
-  lg: { text: "text-4xl md:text-6xl", bean: 40, img: "h-20 md:h-28", tagline: "text-xs md:text-sm mt-4 tracking-[0.5em]" },
+  sm: { text: "text-lg", bean: 15, img: "h-11", tagline: "text-[7px] mt-1 tracking-[0.35em]" },
+  md: { text: "text-2xl", bean: 20, img: "h-16", tagline: "text-[9px] mt-1.5 tracking-[0.4em]" },
+  lg: { text: "text-4xl md:text-6xl", bean: 40, img: "h-32 md:h-44", tagline: "text-xs md:text-sm mt-4 tracking-[0.5em]" },
 } as const;
 
 export default function Logo({

@@ -50,6 +50,7 @@ export interface Order {
 
 export interface SiteContent {
   logo_url?: string; // data URL or hosted image URL; empty = use the text wordmark
+  hero_video_url?: string; // YouTube/Vimeo link or direct .mp4 URL; empty = no video
   hero_title_en: string;
   hero_title_ar: string;
   hero_subtitle_en: string;
